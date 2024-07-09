@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Bruteforce Password</title>
+</head>
+
+<body>
+  <script>
+    function generateCombinations(allowedCharacters, length) {
+      const combinations = [];
+      const recursiveGenerate = (prefix, remainingLength) => {
+        if (remainingLength === 0) {
+          combinations.push(prefix);
+          return;
+        }
+        for (const char of allowedCharacters) {
+          recursiveGenerate(prefix + char, remainingLength - 1);
+        }
+      };
+      recursiveGenerate("", length);
+      return combinations;
+    }
+
+    function bruteForcePassword() {
+      const passwordInput = document.getElementById('passwordInput');
+      const resultOutput = document.getElementById('resultOutput');
+
+      const password = passwordInput.value;
+      console.log('Actual Password:', password);
+
+      const maxLength = password.length || 10;
+      const allowedCharacters = getAllowedCharacters();
+
+      const combinations = generateCombinations(allowedCharacters, maxLength);
+
+      const passwordFound = combinations.includes(password);
+      if (passwordFound) {
+        resultOutput.textContent = `Password found: ${password}`;
+      } else {
+        resultOutput.textContent = 'Password not found.';
+      }
+    }
+
+    function getAllowedCharacters() {
+      return "0123456789";
+    }
+  </script>
+
+  <h2>Number Bruteforce Password</h2>
+  <label for="passwordInput">Enter Password: </label>
+  <input type="text" id="passwordInput">
+  <button onclick="bruteForcePassword()">Bruteforce (only numbers)</button>
+  <p id="resultOutput"></p>
+</body>
+
+</html>
